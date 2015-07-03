@@ -22,10 +22,10 @@ SOURCES += main.cpp\
     Detector.cpp \
     EyeDetector.cpp \
     FaceAligner.cpp \
-    Fern.cpp \
-    FernCascade.cpp \
-    ShapeRegressor.cpp \
-    Utils.cpp
+    ESR/Fern.cpp \
+    ESR/FernCascade.cpp \
+    ESR/ShapeRegressor.cpp \
+    ESR/Utils.cpp
 
 HEADERS  += mainwindow.h \
     WebcamCapture.h \
