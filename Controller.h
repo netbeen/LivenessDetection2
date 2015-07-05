@@ -7,6 +7,7 @@
 #include <FaceDetector.h>
 #include <EyeDetector.h>
 #include <FaceAligner.h>
+#include <QMetaType>
 
 class Controller : public QObject
 {
@@ -51,7 +52,7 @@ public slots:
 
 signals:
     void controllerReceivesNewImage();
-    void doAlignment(cv::Mat& grayImg, BoundingBox& boundingBox);
+    void doAlignment();
 };
 
 #endif // CONTROLLER_H

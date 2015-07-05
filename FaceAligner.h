@@ -6,15 +6,15 @@
 #include <QObject>
 #include <QThread>
 
-class FaceAligner : public QThread
+class FaceAligner : public QObject
 {
     Q_OBJECT
 public:
     FaceAligner();
     ~FaceAligner();
     cv::Mat_<double> align(cv::Mat& grayImg, BoundingBox& boundingBox);
-    virtual void run();
     cv::Mat_<double> getCurrentShape();
+    void setNextFrame(cv::Mat& grayImg, BoundingBox& boundingBox);
 
 private:
     const int initial_number;
@@ -30,7 +30,7 @@ signals:
     void alignmentCompete();
 
 public slots:
-    void doAlignment(cv::Mat& grayImg, BoundingBox& boundingBox);
+    void doAlignment();
 };
 
 #endif // FACEALIGNER_H

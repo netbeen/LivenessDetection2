@@ -13,9 +13,13 @@ Controller::Controller():isShapeValid(false),isAligning(false),mainFrameRate(0),
     faceDetector = new FaceDetector();
     eyeDetector = new EyeDetector();
     faceAligner = new FaceAligner();
-    faceAligner->start();
+    //faceAligner->start();
 
-    QObject::connect(this, SIGNAL(doAlignment(cv::Mat&,BoundingBox&)), faceAligner, SLOT(doAlignment(cv::Mat&,BoundingBox&)) );
+    QThread* thread1 = new QThread;
+    faceAligner->moveToThread(thread1);
+    thread1->start();
+
+    QObject::connect(this, SIGNAL(doAlignment()), faceAligner, SLOT(doAlignment()) );
     QObject::connect( faceAligner,SIGNAL(alignmentCompete()) , this, SLOT(receiveShape())  );
 
 
@@ -41,11 +45,13 @@ void Controller::receiveNewImage(int index){
 
         if(isShapeValid == false && isAligning == false){
             this->isAligning = true;
-            emit this->doAlignment(grayImage, boundingBox);
+            faceAligner->setNextFrame(grayImage, boundingBox);
+            emit this->doAlignment();
         }else if(isShapeValid == false && isAligning == true){
             ;
         }else if(isShapeValid == true && isAligning == false){
-            emit this->doAlignment(grayImage, boundingBox);
+            faceAligner->setNextFrame(grayImage, boundingBox);
+            emit this->doAlignment();
             this->drawPoint(rawImage,shape);
             this->isAligning = true;
         }else{

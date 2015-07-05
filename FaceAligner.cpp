@@ -12,14 +12,16 @@ FaceAligner::~FaceAligner()
 }
 
 
-void FaceAligner::doAlignment(cv::Mat& grayImg, BoundingBox& boundingBox){
-    this->grayImg = grayImg;
-    this->boundingBox = boundingBox;
-    receiveNewData = true;
+void FaceAligner::doAlignment(){
+    //this->grayImg = grayImg;
+    //this->boundingBox = boundingBox;
+    //receiveNewData = true;
+    currentShape =  regressor.predict(grayImg, boundingBox, this->initial_number);
+    emit this->alignmentCompete();
     return;
 }
 
-void FaceAligner::run(){
+/*void FaceAligner::run(){
     while(true){
         if(receiveNewData){
             currentShape =  regressor.predict(grayImg, boundingBox, this->initial_number);
@@ -27,8 +29,13 @@ void FaceAligner::run(){
             emit this->alignmentCompete();
         }
     }
-}
+}*/
 
 cv::Mat_<double> FaceAligner::getCurrentShape(){
     return currentShape;
+}
+
+void FaceAligner::setNextFrame(cv::Mat &grayImg, BoundingBox &boundingBox){
+    this->grayImg = grayImg;
+    this->boundingBox = boundingBox;
 }
