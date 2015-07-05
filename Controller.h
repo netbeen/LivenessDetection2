@@ -34,6 +34,8 @@ private:
     EyeDetector* eyeDetector;
     FaceAligner* faceAligner;
 
+    QThread* faceAlignerThread;
+
     void drawRect(cv::Mat& input, BoundingBox& boundingBox);
     void drawRect(cv::Mat &input, std::vector<cv::Rect>& eyesRects);
     void drawPoint(cv::Mat& input, cv::Mat_<double>& shape);

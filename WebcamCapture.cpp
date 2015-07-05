@@ -5,6 +5,7 @@ WebcamCapture::WebcamCapture()
     if (cap.open(0)) {
         cap.set(CV_CAP_PROP_FRAME_WIDTH,800);
         cap.set(CV_CAP_PROP_FRAME_HEIGHT,600);
+        cap.set(CV_CAP_PROP_FPS, 30);
     }else{
         exit(2);
     }

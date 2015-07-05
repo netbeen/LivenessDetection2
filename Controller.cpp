@@ -13,11 +13,10 @@ Controller::Controller():isShapeValid(false),isAligning(false),mainFrameRate(0),
     faceDetector = new FaceDetector();
     eyeDetector = new EyeDetector();
     faceAligner = new FaceAligner();
-    //faceAligner->start();
 
-    QThread* thread1 = new QThread;
-    faceAligner->moveToThread(thread1);
-    thread1->start();
+    faceAlignerThread = new QThread;
+    faceAligner->moveToThread(faceAlignerThread);
+    faceAlignerThread->start();
 
     QObject::connect(this, SIGNAL(doAlignment()), faceAligner, SLOT(doAlignment()) );
     QObject::connect( faceAligner,SIGNAL(alignmentCompete()) , this, SLOT(receiveShape())  );
