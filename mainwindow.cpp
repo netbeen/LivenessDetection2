@@ -32,3 +32,8 @@ void MainWindow::updateInfo(){
     int faceAlignmentFrameRate = control->getFaceAlignmentFrameRate();
     ui->faceAlignmentFrameRate->setText(QString::number(faceAlignmentFrameRate, 10));
 }
+
+void MainWindow::on_pushButton_clicked()
+{
+    control->startToRun();
+}

@@ -18,6 +18,7 @@ public:
     ~Controller();
     int getMainFrameRate();
     int getFaceAlignmentFrameRate();
+    void startToRun();
 
 private:
     static Controller* ptr2Controller;

@@ -6,7 +6,7 @@ Controller* Controller::ptr2Controller = nullptr;
 Controller::Controller():isShapeValid(false),isAligning(false),mainFrameRate(0),faceAlignmentFrameRate(0)
 {
     webcamCapture = new WebcamCapture();
-    webcamCapture->start();
+
     QObject::connect(webcamCapture,SIGNAL(newImageCaptured(int)),this,SLOT(receiveNewImage(int)));
 
 
@@ -16,7 +16,7 @@ Controller::Controller():isShapeValid(false),isAligning(false),mainFrameRate(0),
 
     faceAlignerThread = new QThread;
     faceAligner->moveToThread(faceAlignerThread);
-    faceAlignerThread->start();
+
 
     QObject::connect(this, SIGNAL(doAlignment()), faceAligner, SLOT(doAlignment()) );
     QObject::connect( faceAligner,SIGNAL(alignmentCompete()) , this, SLOT(receiveShape())  );
@@ -42,18 +42,18 @@ void Controller::receiveNewImage(int index){
             this->drawRect(rawImage, eyesRects);
         }
 
-        if(isShapeValid == false && isAligning == false){
+        if(isShapeValid == false && isAligning == false){       //初始状态，形状无效，未在对齐
             this->isAligning = true;
             faceAligner->setNextFrame(grayImage, boundingBox);
             emit this->doAlignment();
-        }else if(isShapeValid == false && isAligning == true){
+        }else if(isShapeValid == false && isAligning == true){      // 形状无效，正在对齐
             ;
-        }else if(isShapeValid == true && isAligning == false){
+        }else if(isShapeValid == true && isAligning == false){      //形状有效，未在对齐
             faceAligner->setNextFrame(grayImage, boundingBox);
             emit this->doAlignment();
             this->drawPoint(rawImage,shape);
             this->isAligning = true;
-        }else{
+        }else{      //形状有效，正在对齐。
             this->drawPoint(rawImage,shape);
         }
 
@@ -111,4 +111,9 @@ int Controller::getFaceAlignmentFrameRate(){
     int count = this->faceAlignmentFrameRate;
     faceAlignmentFrameRate = 0;
     return count;
+}
+
+void Controller::startToRun(){
+    webcamCapture->start();
+    faceAlignerThread->start();
 }

@@ -75,9 +75,9 @@ QSlider::handle:horizontal {
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>342</x>
+      <x>352</x>
       <y>130</y>
-      <width>171</width>
+      <width>161</width>
       <height>22</height>
      </rect>
     </property>
@@ -91,8 +91,14 @@ QSlider::handle:horizontal {
      </item>
      <item>
       <widget class="QLabel" name="mainFrameRateLabel">
+       <property name="minimumSize">
+        <size>
+         <width>41</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
-        <string/>
+        <string>0</string>
        </property>
       </widget>
      </item>
@@ -108,9 +114,9 @@ QSlider::handle:horizontal {
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>330</x>
+      <x>340</x>
       <y>160</y>
-      <width>181</width>
+      <width>171</width>
       <height>22</height>
      </rect>
     </property>
@@ -125,7 +131,7 @@ QSlider::handle:horizontal {
      <item>
       <widget class="QLabel" name="faceAlignmentFrameRate">
        <property name="text">
-        <string/>
+        <string>0</string>
        </property>
       </widget>
      </item>
@@ -164,11 +170,25 @@ QSlider::handle:horizontal {
      <bool>false</bool>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>1360</x>
+      <y>640</y>
+      <width>111</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>开始认证</string>
+    </property>
+   </widget>
    <zorder>groupBox</zorder>
    <zorder>imageLabel</zorder>
    <zorder>horizontalSlider</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>layoutWidget</zorder>
+   <zorder>pushButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

@@ -24,7 +24,6 @@ private:
 
     cv::Mat grayImg;
     BoundingBox boundingBox;
-    bool receiveNewData;
 
 signals:
     void alignmentCompete();
