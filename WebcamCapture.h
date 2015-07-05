@@ -18,8 +18,6 @@ public:
     int size();
     cv::Mat getImageByIndex(int index);
 
-public slots:
-
 signals:
     void newImageCaptured(int);
 
