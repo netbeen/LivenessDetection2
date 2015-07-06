@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <Controller.h>
 #include <QTimer>
+#include <ProgressController.h>
 
 namespace Ui {
 class MainWindow;
@@ -20,13 +21,18 @@ public:
 private:
     Ui::MainWindow *ui;
     Controller* control;
+    ProgressController* progressController;
+
+signals:
+    void startProgress();
 
 public slots:
     void updateImageLabel();
     void updateInfo();
+    void updateHorizontalSlider(int percentage);
 
 private slots:
-    void on_pushButton_clicked();
+    void on_startToRunButton_clicked();
 };
 
 #endif // MAINWINDOW_H

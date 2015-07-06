@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     ESR/Fern.cpp \
     ESR/FernCascade.cpp \
     ESR/ShapeRegressor.cpp \
-    ESR/Utils.cpp
+    ESR/Utils.cpp \
+    ProgressController.cpp
 
 HEADERS  += mainwindow.h \
     WebcamCapture.h \
@@ -35,7 +36,8 @@ HEADERS  += mainwindow.h \
     Detector.h \
     EyeDetector.h \
     FaceAligner.h \
-    ESR.hpp
+    ESR.hpp \
+    ProgressController.h
 
 FORMS    += mainwindow.ui
 

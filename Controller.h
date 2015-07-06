@@ -7,7 +7,8 @@
 #include <FaceDetector.h>
 #include <EyeDetector.h>
 #include <FaceAligner.h>
-#include <QMetaType>
+#include <ProgressController.h>
+
 
 class Controller : public QObject
 {
@@ -34,8 +35,10 @@ private:
     FaceDetector* faceDetector;
     EyeDetector* eyeDetector;
     FaceAligner* faceAligner;
+    ProgressController* progressController;
 
     QThread* faceAlignerThread;
+    QThread* progressControllerThread;
 
     void drawRect(cv::Mat& input, BoundingBox& boundingBox);
     void drawRect(cv::Mat &input, std::vector<cv::Rect>& eyesRects);

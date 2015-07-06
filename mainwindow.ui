@@ -170,7 +170,7 @@ QSlider::handle:horizontal {
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="startToRunButton">
     <property name="geometry">
      <rect>
       <x>1360</x>
@@ -188,7 +188,7 @@ QSlider::handle:horizontal {
    <zorder>horizontalSlider</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>layoutWidget</zorder>
-   <zorder>pushButton</zorder>
+   <zorder>startToRunButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

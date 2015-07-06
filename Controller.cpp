@@ -14,9 +14,12 @@ Controller::Controller():isShapeValid(false),isAligning(false),mainFrameRate(0),
     eyeDetector = new EyeDetector();
     faceAligner = new FaceAligner();
 
+    progressController = ProgressController::getInstance();
+    progressControllerThread = new QThread();
+    progressController->moveToThread(progressControllerThread);
+
     faceAlignerThread = new QThread;
     faceAligner->moveToThread(faceAlignerThread);
-
 
     QObject::connect(this, SIGNAL(doAlignment()), faceAligner, SLOT(doAlignment()) );
     QObject::connect( faceAligner,SIGNAL(alignmentCompete()) , this, SLOT(receiveShape())  );
@@ -116,4 +119,5 @@ int Controller::getFaceAlignmentFrameRate(){
 void Controller::startToRun(){
     webcamCapture->start();
     faceAlignerThread->start();
+    progressControllerThread->start();
 }

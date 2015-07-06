@@ -9,6 +9,10 @@ MainWindow::MainWindow(QWidget *parent) :
     control = Controller::getInstance();
     QObject::connect(control,SIGNAL(controllerReceivesNewImage()),this,SLOT(updateImageLabel()));
 
+    progressController = ProgressController::getInstance();
+    QObject::connect(progressController,SIGNAL(updateHorizontalSlider(int)),this,SLOT(updateHorizontalSlider(int)));
+    QObject::connect(this,SIGNAL(startProgress()),progressController,SLOT(startProgress()));
+
     QTimer *updateInfoTimer = new QTimer(this);
     QObject::connect(updateInfoTimer,SIGNAL(timeout()),this,SLOT(updateInfo()));
     updateInfoTimer->start(1000);
@@ -33,7 +37,12 @@ void MainWindow::updateInfo(){
     ui->faceAlignmentFrameRate->setText(QString::number(faceAlignmentFrameRate, 10));
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_startToRunButton_clicked()
 {
     control->startToRun();
+    emit startProgress();
+}
+
+void MainWindow::updateHorizontalSlider(int percentage){
+    ui->horizontalSlider->setValue(percentage);
 }
