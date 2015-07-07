@@ -2,7 +2,7 @@
 
 ProgressController* ProgressController::ptr2ProgressController = nullptr;
 
-ProgressController::ProgressController():sliderOnewayTime(3000),horizontalSliderPercentage(49),horizontalSliderIsGoingLeft(true),edgeSleepTime(2000)
+ProgressController::ProgressController():sliderOnewayTime(2000),horizontalSliderPercentage(49),horizontalSliderIsGoingLeft(true),edgeSleepTime(2000)
 {
     updateSliderTimer = new QTimer(this);
     QObject::connect(updateSliderTimer,SIGNAL(timeout()),this,SLOT(changeHorizontalSliderPercentage()));
@@ -35,12 +35,13 @@ void ProgressController::changeHorizontalSliderPercentage(){
         this->horizontalSliderPercentage++;
     }
     emit updateHorizontalSlider(horizontalSliderPercentage);
-    if(horizontalSliderPercentage == 0 || horizontalSliderPercentage == 97){
+    if(horizontalSliderPercentage == 0 || horizontalSliderPercentage == 97){        //由于滑块的宽度为2,所以不能顶到99，那样会造成视觉上的不美观。
         this->updateSliderTimer->stop();
-        this->edgeSleepTimer->start(edgeSleepTime);
+        this->edgeSleepTimer->start(edgeSleepTime);     // 开启睡眠计时器
     }
 }
 
+//private slot,用于改变滑块方向，并重启滑块的滑动
 void ProgressController::changeHorizontalSliderOrientation(){
     this->edgeSleepTimer->stop();
     this->horizontalSliderIsGoingLeft = (this->horizontalSliderIsGoingLeft==true)?false:true;

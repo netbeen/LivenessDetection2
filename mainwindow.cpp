@@ -35,6 +35,8 @@ void MainWindow::updateInfo(){
     ui->mainFrameRateLabel->setText(QString::number(mainFrameRate, 10));
     int faceAlignmentFrameRate = control->getFaceAlignmentFrameRate();
     ui->faceAlignmentFrameRate->setText(QString::number(faceAlignmentFrameRate, 10));
+    int opticalFlowFrameRate = control->getOpticalFlowFrameRate();
+    ui->opticalFlowFrameRate->setText(QString::number(opticalFlowFrameRate, 10));
 }
 
 void MainWindow::on_startToRunButton_clicked()

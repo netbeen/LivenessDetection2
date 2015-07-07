@@ -77,7 +77,7 @@ QSlider::handle:horizontal {
      <rect>
       <x>352</x>
       <y>130</y>
-      <width>161</width>
+      <width>166</width>
       <height>22</height>
      </rect>
     </property>
@@ -183,12 +183,46 @@ QSlider::handle:horizontal {
      <string>开始认证</string>
     </property>
    </widget>
+   <widget class="QWidget" name="layoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>190</y>
+      <width>141</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>光流帧率</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="opticalFlowFrameRate">
+       <property name="text">
+        <string>0</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>帧/秒</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
    <zorder>groupBox</zorder>
    <zorder>imageLabel</zorder>
    <zorder>horizontalSlider</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>startToRunButton</zorder>
+   <zorder>layoutWidget_2</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

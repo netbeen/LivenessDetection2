@@ -3,7 +3,7 @@
 //单例模式的静态指针的定义+初始化
 Controller* Controller::ptr2Controller = nullptr;
 
-Controller::Controller():isShapeValid(false),isAligning(false),mainFrameRate(0),faceAlignmentFrameRate(0)
+Controller::Controller():isShapeValid(false),isAligning(false),mainFrameRate(0),faceAlignmentFrameRate(0),isOpticalFlowCalculateing(false),opticalFlowFrameRate(0)
 {
     webcamCapture = new WebcamCapture();
 
@@ -13,6 +13,7 @@ Controller::Controller():isShapeValid(false),isAligning(false),mainFrameRate(0),
     faceDetector = new FaceDetector();
     eyeDetector = new EyeDetector();
     faceAligner = new FaceAligner();
+    opticalFlowCalculater = new OpticalFlowCalculater();
 
     progressController = ProgressController::getInstance();
     progressControllerThread = new QThread();
@@ -24,7 +25,11 @@ Controller::Controller():isShapeValid(false),isAligning(false),mainFrameRate(0),
     QObject::connect(this, SIGNAL(doAlignment()), faceAligner, SLOT(doAlignment()) );
     QObject::connect( faceAligner,SIGNAL(alignmentCompete()) , this, SLOT(receiveShape())  );
 
+    opticalFlowCalculaterThread = new QThread();
+    opticalFlowCalculater->moveToThread(opticalFlowCalculaterThread);
 
+    QObject::connect(this,SIGNAL(calcOpticalFlow()),opticalFlowCalculater,SLOT(calc()));
+    QObject::connect(opticalFlowCalculater,SIGNAL(calcCompete()),this,SLOT(receiveOpticalFlow()));
 
 }
 
@@ -96,11 +101,18 @@ void Controller::drawPoint(cv::Mat& input, cv::Mat_<double>& shape){
     }
 }
 
+//一个slot，在收到“配准完毕”信号之后的动作：更新配准形状，并进行光流计算
 void Controller::receiveShape(){
     this->shape = faceAligner->getCurrentShape();
     this->isShapeValid=true;
     this->isAligning = false;
     faceAlignmentFrameRate++;
+
+    if(this->isOpticalFlowCalculateing == false){
+        this->isOpticalFlowCalculateing = true;
+        opticalFlowCalculater->receiveNewFrame(grayImage);
+        emit this->calcOpticalFlow();
+    }
     return;
 }
 
@@ -116,8 +128,22 @@ int Controller::getFaceAlignmentFrameRate(){
     return count;
 }
 
+int Controller::getOpticalFlowFrameRate(){
+    int count = this->opticalFlowFrameRate;
+    opticalFlowFrameRate = 0;
+    return count;
+}
+
+
 void Controller::startToRun(){
     webcamCapture->start();
     faceAlignerThread->start();
     progressControllerThread->start();
+    opticalFlowCalculaterThread->start();
+}
+
+void Controller::receiveOpticalFlow(){
+    cv::imshow("yy",opticalFlowCalculater->getNrom());
+    this->isOpticalFlowCalculateing = false;
+    this->opticalFlowFrameRate++;
 }

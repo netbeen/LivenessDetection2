@@ -8,6 +8,7 @@
 #include <EyeDetector.h>
 #include <FaceAligner.h>
 #include <ProgressController.h>
+#include <OpticalFlowCalculater.h>
 
 
 class Controller : public QObject
@@ -19,6 +20,7 @@ public:
     ~Controller();
     int getMainFrameRate();
     int getFaceAlignmentFrameRate();
+    int getOpticalFlowFrameRate();
     void startToRun();
 
 private:
@@ -36,9 +38,11 @@ private:
     EyeDetector* eyeDetector;
     FaceAligner* faceAligner;
     ProgressController* progressController;
+    OpticalFlowCalculater* opticalFlowCalculater;
 
     QThread* faceAlignerThread;
     QThread* progressControllerThread;
+    QThread* opticalFlowCalculaterThread;
 
     void drawRect(cv::Mat& input, BoundingBox& boundingBox);
     void drawRect(cv::Mat &input, std::vector<cv::Rect>& eyesRects);
@@ -48,17 +52,21 @@ private:
 
     bool isAligning;
     bool isShapeValid;
+    bool isOpticalFlowCalculateing;
     int mainFrameRate;
     int faceAlignmentFrameRate;
+    int opticalFlowFrameRate;
 
 
 public slots:
     void receiveNewImage(int index);
     void receiveShape();
+    void receiveOpticalFlow();
 
 signals:
     void controllerReceivesNewImage();
     void doAlignment();
+    void calcOpticalFlow();
 };
 
 #endif // CONTROLLER_H

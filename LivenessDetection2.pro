@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     ESR/FernCascade.cpp \
     ESR/ShapeRegressor.cpp \
     ESR/Utils.cpp \
-    ProgressController.cpp
+    ProgressController.cpp \
+    OpticalFlowCalculater.cpp
 
 HEADERS  += mainwindow.h \
     WebcamCapture.h \
@@ -37,7 +38,8 @@ HEADERS  += mainwindow.h \
     EyeDetector.h \
     FaceAligner.h \
     ESR.hpp \
-    ProgressController.h
+    ProgressController.h \
+    OpticalFlowCalculater.h
 
 FORMS    += mainwindow.ui
 
@@ -45,3 +47,5 @@ LIBS += /usr/local/lib/libopencv_core.so    \
 		/usr/local/lib/libopencv_imgproc.so \
 		/usr/local/lib/libopencv_highgui.so \
 		/usr/local/lib/libopencv_objdetect.so \
+		/usr/local/lib/libopencv_video.so	\
+

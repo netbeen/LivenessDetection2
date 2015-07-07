@@ -27,11 +27,11 @@ signals:
     void startProgress();
 
 public slots:
-    void updateImageLabel();
-    void updateInfo();
     void updateHorizontalSlider(int percentage);
 
 private slots:
+    void updateImageLabel();
+    void updateInfo();
     void on_startToRunButton_clicked();
 };
 
