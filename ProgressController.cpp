@@ -2,7 +2,7 @@
 
 ProgressController* ProgressController::ptr2ProgressController = nullptr;
 
-ProgressController::ProgressController():sliderOnewayTime(2000),horizontalSliderPercentage(49),horizontalSliderIsGoingLeft(true),edgeSleepTime(2000)
+ProgressController::ProgressController():sliderOnewayTime(1500),horizontalSliderPercentage(49),horizontalSliderIsGoingLeft(true),edgeSleepTime(1500)
 {
     updateSliderTimer = new QTimer(this);
     QObject::connect(updateSliderTimer,SIGNAL(timeout()),this,SLOT(changeHorizontalSliderPercentage()));

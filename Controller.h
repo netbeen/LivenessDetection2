@@ -9,7 +9,9 @@
 #include <FaceAligner.h>
 #include <ProgressController.h>
 #include <OpticalFlowCalculater.h>
-
+#include <AnalyserFactory.h>
+#include <vector>
+#include <string>
 
 class Controller : public QObject
 {
@@ -31,6 +33,9 @@ private:
     BoundingBox boundingBox;
     std::vector<cv::Rect> eyesRects;
     Controller();   //单例模式，private的构造函数
+    std::vector<std::string> analyserOrder;
+    void randomizeVector(std::vector<std::string>& inputVector);
+
 
 
     WebcamCapture* webcamCapture;
@@ -39,6 +44,7 @@ private:
     FaceAligner* faceAligner;
     ProgressController* progressController;
     OpticalFlowCalculater* opticalFlowCalculater;
+    AnalyserFactory* analyserFactory;
 
     QThread* faceAlignerThread;
     QThread* progressControllerThread;

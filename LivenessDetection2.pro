@@ -27,7 +27,10 @@ SOURCES += main.cpp\
     ESR/ShapeRegressor.cpp \
     ESR/Utils.cpp \
     ProgressController.cpp \
-    OpticalFlowCalculater.cpp
+    OpticalFlowCalculater.cpp \
+    AnalyserFactory.cpp \
+    BlinkAnalyser.cpp \
+    Analyser.cpp
 
 HEADERS  += mainwindow.h \
     WebcamCapture.h \
@@ -39,7 +42,10 @@ HEADERS  += mainwindow.h \
     FaceAligner.h \
     ESR.hpp \
     ProgressController.h \
-    OpticalFlowCalculater.h
+    OpticalFlowCalculater.h \
+    AnalyserFactory.h \
+    BlinkAnalyser.h \
+    Analyser.h
 
 FORMS    += mainwindow.ui
 

@@ -5,31 +5,30 @@ Controller* Controller::ptr2Controller = nullptr;
 
 Controller::Controller():isShapeValid(false),isAligning(false),mainFrameRate(0),faceAlignmentFrameRate(0),isOpticalFlowCalculateing(false),opticalFlowFrameRate(0)
 {
-    webcamCapture = new WebcamCapture();
+    webcamCapture = new WebcamCapture();        //webcamCapture对象
+    faceDetector = new FaceDetector();          //faceDetector对象
+    eyeDetector = new EyeDetector();            //eyeDetector对象
+    faceAligner = new FaceAligner();            //faceAligner对象
+    opticalFlowCalculater = new OpticalFlowCalculater();        //opticalFlowCalculater对象
+    progressController = ProgressController::getInstance();     //progressController单例模式对象
+    analyserFactory = new AnalyserFactory();
 
-    QObject::connect(webcamCapture,SIGNAL(newImageCaptured(int)),this,SLOT(receiveNewImage(int)));
 
-
-    faceDetector = new FaceDetector();
-    eyeDetector = new EyeDetector();
-    faceAligner = new FaceAligner();
-    opticalFlowCalculater = new OpticalFlowCalculater();
-
-    progressController = ProgressController::getInstance();
-    progressControllerThread = new QThread();
+    progressControllerThread = new QThread();       //progressController对象的线程，线程1
     progressController->moveToThread(progressControllerThread);
 
-    faceAlignerThread = new QThread;
+    faceAlignerThread = new QThread;        //faceAligner对象的线程，线程2
     faceAligner->moveToThread(faceAlignerThread);
 
-    QObject::connect(this, SIGNAL(doAlignment()), faceAligner, SLOT(doAlignment()) );
-    QObject::connect( faceAligner,SIGNAL(alignmentCompete()) , this, SLOT(receiveShape())  );
-
-    opticalFlowCalculaterThread = new QThread();
+    opticalFlowCalculaterThread = new QThread();        //opticalFlowCalculater对象的线程，线程3
     opticalFlowCalculater->moveToThread(opticalFlowCalculaterThread);
 
-    QObject::connect(this,SIGNAL(calcOpticalFlow()),opticalFlowCalculater,SLOT(calc()));
-    QObject::connect(opticalFlowCalculater,SIGNAL(calcCompete()),this,SLOT(receiveOpticalFlow()));
+
+    QObject::connect(webcamCapture,SIGNAL(newImageCaptured(int)),this,SLOT(receiveNewImage(int)));      //webcamCapture完成图片获取，Controller接过图片管理权
+    QObject::connect(this, SIGNAL(doAlignment()), faceAligner, SLOT(doAlignment()) );   //Controller把图片分发到faceAligner对象进行对齐，线程2
+    QObject::connect( faceAligner,SIGNAL(alignmentCompete()) , this, SLOT(receiveShape())  );   //线程2返回
+    QObject::connect(this,SIGNAL(calcOpticalFlow()),opticalFlowCalculater,SLOT(calc()));        //Controller把图片分发到opticalFlowCalculater对象计算光流，线程3
+    QObject::connect(opticalFlowCalculater,SIGNAL(calcCompete()),this,SLOT(receiveOpticalFlow()));  //线程3返回
 
 }
 
@@ -136,14 +135,29 @@ int Controller::getOpticalFlowFrameRate(){
 
 
 void Controller::startToRun(){
-    webcamCapture->start();
+    /*webcamCapture->start();
     faceAlignerThread->start();
     progressControllerThread->start();
-    opticalFlowCalculaterThread->start();
+    opticalFlowCalculaterThread->start();*/
+
+    analyserOrder.clear();
+    for(std::string elemStr : analyserFactory->analyserType){
+        this->analyserOrder.push_back(elemStr);
+    }
+    this->randomizeVector(this->analyserOrder);
+
 }
 
 void Controller::receiveOpticalFlow(){
-    cv::imshow("yy",opticalFlowCalculater->getNrom());
+    cv::imshow("opticalFlow",opticalFlowCalculater->getNrom());
     this->isOpticalFlowCalculateing = false;
     this->opticalFlowFrameRate++;
+}
+
+void Controller::randomizeVector(std::vector<std::string>& inputVector){
+    const int swapCount = inputVector.size();
+    for(int i = 0; i < swapCount; ++i){
+        std::swap(inputVector.at(random()%inputVector.size()), inputVector.at(random()%inputVector.size()));
+        //std::swap(inputVector.at(0), inputVector.at(1));
+    }
 }
